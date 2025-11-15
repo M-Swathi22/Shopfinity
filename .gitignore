@@ -1,0 +1,41 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+
+# ---- Virtual Environment ----
+env/
+envsite/
+venv/
+.venv/
+
+# ---- Django ----
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+
+# Local settings & secrets (Do NOT upload passwords)
+.env
+.env.local
+settings_secret.py
+
+# ---- Media & Static Build ----
+/media/
+staticfiles/
+static-root/
+build/
+dist/
+
+# ---- VS Code ----
+.vscode/
+
+# ---- IDE & System Files ----
+.DS_Store
+Thumbs.db
+
+# ---- Node ----
+node_modules/
