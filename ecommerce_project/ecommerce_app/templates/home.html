@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Shopfinity{% endblock %}
+
+{% block content %}
+<!-- Hero Banner with Image Tag -->
+<div class="position-relative text-white text-center shadow-sm">
+  <img src="{% static 'images/banner.avif' %}" class="img-fluid w-100" style="height: 400px; object-fit: cover;" alt="Banner Image">
+  <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.5);">
+    <h1 class="display-4 fw-bold">Welcome to <span style="color: #ffcc00;">Shopfinity</span> 🛍️</h1>
+    <p class="fs-5">Discover amazing products, great deals, and fast delivery — all in one place.</p>
+    <a href="{% url 'categories' %}" class="btn btn-warning btn-lg fw-semibold mt-3">Explore Categories</a>
+  </div>
+</div>
+
+<!-- Categories Section -->
+<div class="container mt-5">
+  <h3 class="mb-4 text-center">🗂️ Shop by Categories</h3>
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-4">
+
+    <!-- Category Card Template -->
+    {% for category in categories %}
+    <div class="col">
+      <div class="card text-center border-0 shadow-sm h-100">
+        <div class="card-body p-2 d-flex flex-column align-items-center">
+          <img src="{% static category.image %}" class="img-fluid rounded mb-2" alt="{{ category.name }}" style="height: 100px; object-fit: contain;">
+          <h6 class="mt-2">{{ category.name }}</h6>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+{% endblock %}

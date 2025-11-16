@@ -1,9 +1,12 @@
-from django.shortcuts import render
 from django.urls import path
 from . import views
 
-# Create your views here.
 urlpatterns = [
+     path('', views.home, name='home'),
      path('register/', views.register, name='register'),
      path('login/', views.login_view, name='login'),
+     path('categories/',views.categories,name='categories'),
+     path('search/', views.search, name='search'),
+     
+
 ]

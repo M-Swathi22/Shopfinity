@@ -1,10 +1,22 @@
-from django.shortcuts import render
-from django.conf import settings
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Customer
 from .models import Product,Category
+from django.contrib import messages
 
-# Create your views here.
+def base(request):
+    return render(request,'base.html')
+
+def home(request):
+    categories = [
+        {"name": "Mobile", "image": "images/mobiles.webp"},
+        {"name": "Electronics", "image": "images/electronics.jpg"},
+        {"name": "Fashion", "image": "images/fashion.webp"},
+        {"name": "Books", "image": "images/books.jpg"},
+        {"name": "Home", "image": "images/home.webp"},
+        {"name": "Grocery", "image": "images/Grocery.webp"},
+    ]
+    return render(request, 'home.html', {'categories': categories})
+
 def register(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -26,3 +38,9 @@ def login_view(request):
         except Customer.DoesNotExist:
             return render(request, 'login.html', {'error': 'Invalid email or password'})
     return render(request, 'login.html')
+
+def search(request):
+    return render(request, 'search.html')
+
+def categories(request):
+    return render(request, 'categories.html')
