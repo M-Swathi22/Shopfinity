@@ -44,3 +44,16 @@ def search(request):
 
 def categories(request):
     return render(request, 'categories.html')
+
+def category_products(request, category):
+    try:
+        category_obj = Category.objects.get(name__iexact=category)
+    except Category.DoesNotExist:
+        raise Http404("Category not found")
+
+    products = Product.objects.filter(category=category_obj)
+
+    return render(request, 'category_products.html', {
+        'products': products,
+        'category': category_obj.name,
+    })
