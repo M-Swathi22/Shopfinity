@@ -1,7 +1,15 @@
+import stripe
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Customer
 from .models import Product,Category,Cart,Wishlist
+from django.http import Http404
+from .models import Customer
 from django.contrib import messages
+from .models import Order, OrderItem
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def base(request):
     return render(request,'base.html')
@@ -210,3 +218,51 @@ def confirm_order(request):
         'total': total,
     }
     return render(request, 'confirm_order.html', context)
+
+def create_checkout_session(request):
+    if 'customer_id' not in request.session:
+        return redirect('login')
+
+    customer_id = request.session['customer_id']
+    customer = Customer.objects.get(id=customer_id)
+    cart_items = Cart.objects.filter(customer=customer)
+
+    if not cart_items.exists():
+        messages.error(request, "Cart is empty.")
+        return redirect('view_cart')
+
+    line_items = []
+
+    for item in cart_items:
+        line_items.append({
+            'price_data': {
+                'currency': 'inr',
+                'product_data': {
+                    'name': item.product.name,
+                },
+                'unit_amount': int(item.product.price * 100),  # Stripe needs paise
+            },
+            'quantity': item.quantity,
+        })
+        session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=line_items,
+        mode='payment',
+        success_url=request.build_absolute_uri('/payment_success/'),
+        cancel_url=request.build_absolute_uri('/payment_cancel/'),
+    )
+
+    return redirect(session.url, code=303)
+
+def payment_success(request):
+    if 'customer_id' in request.session:
+        customer_id = request.session['customer_id']
+        customer = Customer.objects.get(id=customer_id)
+        
+        # Clear cart
+        Cart.objects.filter(customer=customer).delete()
+
+    return render(request, 'payment_success.html')
+
+def payment_cancel(request):
+    return render(request, 'payment_cancel.html')

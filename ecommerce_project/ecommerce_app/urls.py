@@ -16,6 +16,9 @@ urlpatterns = [
      path('remove-from-wishlist/<int:product_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
      path('move-to-cart/<int:product_id>/', views.move_to_cart, name='move_to_cart'),
      path('confirm-order/', views.confirm_order, name='confirm_order'),
+     path('create_checkout_session/', views.create_checkout_session, name='create_checkout_session'),
+     path('payment_success/',views. payment_success, name='payment_success'),
+     path('payment_cancel/',views. payment_cancel, name='payment_cancel'),
      path('search/', views.search, name='search'),
      
 
