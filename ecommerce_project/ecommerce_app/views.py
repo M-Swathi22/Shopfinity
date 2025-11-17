@@ -131,3 +131,54 @@ def remove_from_cart(request, product_id):
         messages.error(request, 'Product not found in your cart.')
 
     return redirect('view_cart')
+
+def add_to_wishlist(request, product_id):
+    if 'customer_id' not in request.session:
+        messages.error(request, "You must be logged in to add items to wishlist.")
+        return redirect('login')
+
+    customer_id = request.session['customer_id']  # ✅ Fix: get from session
+    product = Product.objects.get(id=product_id)
+
+    wishlist_item, created = Wishlist.objects.get_or_create(customer_id=customer_id, product=product)
+
+    if created:
+        messages.success(request, "Product added to wishlist.")
+    else:
+        messages.info(request, "Product is already in your wishlist.")
+
+    return redirect('product_detail', product_id=product.id)
+
+def remove_from_wishlist(request, product_id):
+    if 'customer_id' in request.session:
+        customer = Customer.objects.get(id=request.session['customer_id'])
+        Wishlist.objects.filter(customer=customer, product_id=product_id).delete()
+
+    return redirect('wishlist')
+
+def wishlist(request):
+    if 'customer_id' not in request.session:
+        return redirect('login')
+
+    customer = Customer.objects.get(id=request.session['customer_id'])
+    wishlist_items = Wishlist.objects.filter(customer=customer)
+
+    return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
+
+def move_to_cart(request, product_id):
+    customer_id = request.session.get('customer_id')
+    if not customer_id:
+        return redirect('login')
+
+    # Remove from wishlist
+    Wishlist.objects.filter(customer_id=customer_id, product_id=product_id).delete()
+
+    # Add to cart (if not already)
+    product = get_object_or_404(Product, id=product_id)
+    cart_item, created = Cart.objects.get_or_create(customer_id=customer_id, product=product)
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    messages.success(request, 'Moved to cart.')
+    return redirect('view_cart')  # or redirect('wishlist') if you want to stay there
