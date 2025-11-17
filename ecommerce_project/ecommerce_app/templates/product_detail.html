@@ -6,16 +6,27 @@
 <div class="container my-5">
   <div class="row">
 
+    <!-- Product Image -->
     <div class="col-md-6 mb-4 mb-md-0">
       <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
     </div>
 
+    <!-- Product Details -->
     <div class="col-md-6">
       <h2 class="fw-bold">{{ product.name }}</h2>
       <p class="text-success fw-bold fs-4 mb-2">₹{{ product.price }}</p>
       <p class="text-muted">{{ product.description }}</p>
 
-      <!-- Cart & Wishlist removed (you can add later when ready) -->
+      <!-- ONLY CART FORM -->
+      <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+        {% csrf_token %}
+        <div class="d-flex align-items-center mb-3">
+            <label for="quantity" class="me-2 fw-semibold">Qty:</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control w-auto">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+      </form>
 
     </div>
 
