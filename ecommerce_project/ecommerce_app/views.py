@@ -7,6 +7,9 @@ from django.http import Http404
 from .models import Customer
 from django.contrib import messages
 from .models import Order, OrderItem
+from django.db.models import Q
+
+
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -46,9 +49,6 @@ def login_view(request):
         except Customer.DoesNotExist:
             return render(request, 'login.html', {'error': 'Invalid email or password'})
     return render(request, 'login.html')
-
-def search(request):
-    return render(request, 'search.html')
 
 def categories(request):
     return render(request, 'categories.html')
@@ -266,3 +266,19 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, 'payment_cancel.html')
+
+
+def search_view(request):
+    query = request.GET.get('query')
+    results = []
+
+    if query:
+        results = Product.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+
+    context = {
+        'query': query,
+        'results': results,
+    }
+    return render(request, 'search_results.html', context)
