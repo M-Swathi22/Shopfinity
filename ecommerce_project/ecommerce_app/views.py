@@ -57,3 +57,12 @@ def category_products(request, category):
         'products': products,
         'category': category_obj.name,
     })
+
+def product_detail(request, product_id):
+    try:
+
+        product = Product.objects.get(pk=product_id)
+    except Product.DoesNotExist:
+        raise Http404("Product not found")
+    
+    return render(request, 'product_detail.html', {'product': product})

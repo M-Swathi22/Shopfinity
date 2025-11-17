@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ product.name }} - Shopfinity{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+    </div>
+
+    <div class="col-md-6">
+      <h2 class="fw-bold">{{ product.name }}</h2>
+      <p class="text-success fw-bold fs-4 mb-2">₹{{ product.price }}</p>
+      <p class="text-muted">{{ product.description }}</p>
+
+      <!-- Cart & Wishlist removed (you can add later when ready) -->
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
