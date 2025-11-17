@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Confirm Your Order</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <img src="{{ item.product.image.url }}" width="80" height="80">
+                    {{ item.product.name }}
+                </td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.product.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br>
+
+    <h4>Total: ₹{{ total }}</h4><br>
+
+    <form action="{% url 'create_checkout_session' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Proceed to Payment</button>
+        <a href="{% url 'view_cart' %}" class="btn btn-secondary">Go Back</a>
+    </form>
+
+</div>
+{% endblock %}
