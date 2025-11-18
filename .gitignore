@@ -21,7 +21,6 @@ db.sqlite3
 # Local settings & secrets (Do NOT upload passwords)
 .env
 .env.local
-settings_secret.py
 
 # ---- Media & Static Build ----
 /media/
