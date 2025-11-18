@@ -25,7 +25,7 @@ SECRET_KEY = 'dummy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shopfinity-1-vg1x.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
