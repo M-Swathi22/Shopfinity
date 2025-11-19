@@ -115,13 +115,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ---------------- STATIC FILES ---------------- #
+
 STATIC_URL = '/static/'
 
+# Your static folder is: BASE_DIR / static
 STATICFILES_DIRS = [
-    BASE_DIR / 'ecommerce_app' / 'static',
+    BASE_DIR / 'static',
 ]
 
+# For Render deployment (collectstatic output)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
