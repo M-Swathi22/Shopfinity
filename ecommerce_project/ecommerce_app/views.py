@@ -19,12 +19,12 @@ def base(request):
 
 def home(request):
     categories = [
-        {"name": "Mobile", "image": "images/mobiles.webp"},
-        {"name": "Electronics", "image": "images/electronics.jpg"},
-        {"name": "Fashion", "image": "images/fashion.webp"},
-        {"name": "Books", "image": "images/books.jpg"},
-        {"name": "Home", "image": "images/home.webp"},
-        {"name": "Grocery", "image": "images/Grocery.webp"},
+        {"name": "Mobile", "image": "category_images/mobiles.webp"},
+        {"name": "Electronics", "image": "category_images/electronics.jpg"},
+        {"name": "Fashion", "image": "category_images/fashion.webp"},
+        {"name": "Books", "image": "category_images/books.jpg"},
+        {"name": "Home", "image": "category_images/home.webp"},
+        {"name": "Grocery", "image": "category_images/Grocery.webp"},
     ]
     return render(request, 'home.html', {'categories': categories})
 
