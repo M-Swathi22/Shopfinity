@@ -26,4 +26,4 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 # --------------------------
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
-MYSQL_URL = "mysql://root:yCtOEzurgzaDYBvXHUrRPmKkbNufQkJr@mysql.railway.internal:3306/railway"
+MYSQL_URL = "mysql://root:yCtOEzurgzaDYBvXHUrRPmKkbNufQkJr@caboose.proxy.rlwy.net:55554/railway"
