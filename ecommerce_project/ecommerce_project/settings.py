@@ -143,3 +143,18 @@ try:
     from .settings_secret import *
 except ImportError:
     pass
+
+
+# -----------------------------------------
+# AUTO RUN MIGRATIONS ON RENDER (TEMPORARY)
+# -----------------------------------------
+if os.environ.get("RENDER", None) == "true":
+    print("⚙️ Auto migrating database on Render...")
+    import django
+    django.setup()
+    from django.core.management import call_command
+    try:
+        call_command("migrate", interactive=False)
+        print("✔️ Migration completed successfully")
+    except Exception as e:
+        print("❌ Migration error:", e)
